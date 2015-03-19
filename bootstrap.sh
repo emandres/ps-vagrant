@@ -5,6 +5,9 @@ apt-get install -qy lxc-docker
 
 docker pull rabbitmq
 docker pull redis
+docker pull tobert/cassandra
 
 docker run --restart=always -d -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 docker run --restart=always -d -p 6379:6379 redis
+
+docker run --restart=always -d -v /srv/cassandra:/data -p 7000:7000 -p 9160:9160 tobert/cassandra
