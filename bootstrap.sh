@@ -5,9 +5,14 @@ apt-get install -qy lxc-docker
 
 docker pull rabbitmq
 docker pull redis
-docker pull tobert/cassandra
+#docker pull tobert/cassandra
 
-docker run --restart=always -d -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-docker run --restart=always -d -p 6379:6379 redis
+docker run --restart=always -d -p 172.19.0.2:5672:5672 -p 172.19.0.2:15672:15672 rabbitmq:3-management
+docker run --restart=always -d -p 172.19.0.3:6379:6379 redis
 
-docker run --restart=always -d -v /srv/cassandra:/data -p 7000:7000 -p 9160:9160 tobert/cassandra
+#mkdir /srv/cassandra1
+#mkdir /srv/cassandra2
+#$ID=$(docker run --restart=always -d -v /srv/cassandra1:/data -p 172.19.0.4:7000 -p 172.19.0.4:9160 tobert/cassandra)
+#$IP$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' $ID)
+#docker run --restart=always -d -v /srv/cassandra2:/data -p 172.19.0.5:7000 -p 172.19.0.5:9160 tobert/cassandra -seeds $IP
+
