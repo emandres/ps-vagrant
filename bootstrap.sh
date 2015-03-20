@@ -5,14 +5,15 @@ apt-get install -qy lxc-docker
 
 docker pull rabbitmq
 docker pull redis
-#docker pull tobert/cassandra
+docker pull tobert/cassandra
 
 docker run --restart=always -d -p 172.19.0.2:5672:5672 -p 172.19.0.2:15672:15672 rabbitmq:3-management
 docker run --restart=always -d -p 172.19.0.3:6379:6379 redis
 
-#mkdir /srv/cassandra1
-#mkdir /srv/cassandra2
-#$ID=$(docker run --restart=always -d -v /srv/cassandra1:/data -p 172.19.0.4:7000 -p 172.19.0.4:9160 tobert/cassandra)
-#$IP$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' $ID)
-#docker run --restart=always -d -v /srv/cassandra2:/data -p 172.19.0.5:7000 -p 172.19.0.5:9160 tobert/cassandra -seeds $IP
-
+mkdir /srv/cassandra
+docker run --restart=always -d -v /srv/cassandra:/data -p 172.19.0.4:7000:7000 -p 172.19.0.4:9160:9160 -p 172.19.0.4:9042:9042 tobert/cassandra
+sed --in-place=.old s/^(\s+listen_address:\s+)\d+\.\d+\.\d+\.\d+(.*)$/\1127.0.0.1\2/ /srv/cassandra/conf/cassandra.yaml
+sed --in-place=.old2 s/^(\s+seeds:\s+)\d+\.\d+\.\d+\.\d+(.*)$/\1127.0.0.1\2/ /srv/cassandra/conf/cassandra.yaml
+sed --in-place=.old s/3941/512/ /srv/cassandsa/conf/sproks/cassandra.yaml
+sed --in-place=.old s/800/256/ /srv/cassandsa/conf/sproks/cassandra.yaml
+docker run --restart=always -d -v /srv/cassandra:/data -p 172.19.0.4:7000:7000 -p 172.19.0.4:9160:9160 -p 172.19.0.4:9042:9042 tobert/cassandra
