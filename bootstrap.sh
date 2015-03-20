@@ -7,13 +7,18 @@ docker pull rabbitmq
 docker pull redis
 docker pull tobert/cassandra
 
+echo "Starting RabbitMQ on IP 172.19.0.2"
 docker run --restart=always -d -p 172.19.0.2:5672:5672 -p 172.19.0.2:15672:15672 rabbitmq:3-management
+
+echo "Starting Redis on IP 172.19.0.3"
 docker run --restart=always -d -p 172.19.0.3:6379:6379 redis
 
+echo "Starting Cassandra on IP 172.19.0.4"
 mkdir /srv/cassandra
-docker run --restart=always -d -v /srv/cassandra:/data -p 172.19.0.4:7000:7000 -p 172.19.0.4:9160:9160 -p 172.19.0.4:9042:9042 tobert/cassandra
-sed --in-place=.old s/^(\s+listen_address:\s+)\d+\.\d+\.\d+\.\d+(.*)$/\1127.0.0.1\2/ /srv/cassandra/conf/cassandra.yaml
-sed --in-place=.old2 s/^(\s+seeds:\s+)\d+\.\d+\.\d+\.\d+(.*)$/\1127.0.0.1\2/ /srv/cassandra/conf/cassandra.yaml
-sed --in-place=.old s/3941/512/ /srv/cassandsa/conf/sproks/cassandra.yaml
-sed --in-place=.old s/800/256/ /srv/cassandsa/conf/sproks/cassandra.yaml
-docker run --restart=always -d -v /srv/cassandra:/data -p 172.19.0.4:7000:7000 -p 172.19.0.4:9160:9160 -p 172.19.0.4:9042:9042 tobert/cassandra
+ID=$(docker run --restart=always -d -v /srv/cassandra:/data -p 172.19.0.4:7000:7000 -p 172.19.0.4:9160:9160 -p 172.19.0.4:9042:9042 tobert/cassandra)
+sleep 5s
+sed --i=.old -r 's/^(\s*listen_address:\s*).*$/\1127.0.0.1/' /srv/cassandra/conf/cassandra.yaml
+sed --i -r 's/^(\s*-\s*seeds:\s*).*$/\1127.0.0.1/' /srv/cassandra/conf/cassandra.yaml
+sed --i=.old -r 's/3941M/512M/' /srv/cassandra/conf/sproks/cassandra.yaml
+sed --i -r 's/800M/256M/' /srv/cassandra/conf/sproks/cassandra.yaml
+docker restart $ID
