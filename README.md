@@ -11,10 +11,11 @@ Vagrant setup for running RabbitMQ, Redis, and Cassandra in a virtual machine.
 
 The virtual machine will set up several local IP addresses.
 Once running:
-* RabbitMQ should be available at 172.19.0.2:5672
-** with the management plugin at http://172.19.0.2:15672
-* Redis should now be available at 172.19.0.3:6379.
-* Cassandra should be available at 172.19.0.4 with ports 7000, 9160, and 9042 open.
+
+* RabbitMQ should be available at `172.19.0.2:5672`
+    * with the management plugin at http://172.19.0.2:15672
+* Redis should now be available at `172.19.0.3:6379`
+* Cassandra should be available at `172.19.0.4` with ports `7000`, `9160`, and `9042` open
 
 ### Hosts Entries
 
