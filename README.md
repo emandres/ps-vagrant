@@ -5,8 +5,8 @@ Vagrant setup for running RabbitMQ, Redis, and Cassandra in a virtual machine.
 
 ## Setup Instructions
 
-1. If you haven't installed [Vagrant](https://www.vagrantup.com/downloads.html)
-    or [VirtualBox](https://www.virtualbox.org/wiki/Downloads) yet, do so.
+1. You will need to have [Vagrant](https://www.vagrantup.com/downloads.html)
+    and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) installed.
 2. Run `vagrant up` to create and run the virtual machine.
 
 The virtual machine will set up several local IP addresses.
